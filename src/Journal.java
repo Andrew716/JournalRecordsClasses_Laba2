@@ -5,62 +5,66 @@ import java.util.*;
 
 public class Journal  {
     public   List<Record>  records = new ArrayList<Record>();
-    public List<Record> getRecords() {
+
+
+
+    public  List<Record> getRecords() {
         return records;
     }
-    // додавання запису
+
+    // add a record
     public   void add(Record r){
         records.add(r);
     }
 
-    // додавання всіх записів з іншого журналу
+    // add all records from another journal
     public void add(Journal j){
         records.addAll(j.getRecords());
     }
 
-    //видалення запису
+    //remove a record
     public void remove(Record r){
         records.remove(r);
     }
 
-    //видалення запису за порядковим номером
+    //remove a record by serial number
     public void remove(int index){
         records.remove(index);
     }
 
-    //видалення запису за порядковим номером
+    //remove a record by serial number
     public void remove(int fromIndex, int toIndex){
-        for (int i = 0; i < records.size(); i++){
-            if( i > fromIndex && i < toIndex){
-                records.remove(i);
-            }
+        for (int i = 0; i <= toIndex - fromIndex; i++){
+            records.remove(fromIndex);
         }
     }
 
-    // видалення всіх записів
+    //remove all records
     public void removeAll(){
         records.removeAll(getRecords());
     }
 
-    // фільтрації (повертає об'єкт Journal, в якому зберігаються посилання тільки на ті записи, текстове призначення яких (toString()) містить заданий рядок
+    //filtration(returns object Journal which safe reference only those records, text appointment toString equals this string)
     public Journal filter(String s){
         for (int i = 0; i<records.size(); i++){
-            if (records.get(i).toString().equals(s) || records.get(i).toString().equals(s)){
-            }
+            if (records.get(i).toString().equals(s)){
+                return Journal.this;
+            }else return null;
         }
         return null;
     }
 
-    // фільтрація(повертає об'єкт Journal, в якому збеігаються посилання тільки на записи о подіях, які відбулися у вказаний інтервал часу)
+    //filtration(returns object Journal which safe reference only those records, which happened from fromDate to toDate)
     public Journal filter(Date fromDate, Date toDate){
         for (int i = 0; i<records.size(); i++){
             if (records.get(i).getHiredate().before(fromDate) && records.get(i).getHiredate().after(toDate)){
-            }
+                return Journal.this;
+            }else return null;
         }
         return null;
     }
 
-    // сортування за датою подій
+    //sort objects by date events
     public  void sortByDate(){
         Collections.sort(records,new Comparator<Record>() {
             @Override
@@ -69,7 +73,7 @@ public class Journal  {
             }
         });
     }
-    // сортування за (важливість, дата)
+    //sort objects by (importance,date)
     public void sortByImportanceDate(){
         Collections.sort(records, new Comparator<Record>() {
             @Override
@@ -88,7 +92,7 @@ public class Journal  {
         });
     }
 
-    // сортування за (важливітсь, джерело, дата)
+    //sort objects by (importance,source,date)
     public void sortByImportanceSourceDate(){
         Collections.sort(records, new Comparator<Record>() {
             @Override
@@ -114,7 +118,7 @@ public class Journal  {
         });
     }
 
-    // сортування за (джерело, дата)
+    //sort objects by (source,date)
     public void sortBySourceDate(){
         Collections.sort(records, new Comparator<Record>() {
             @Override
